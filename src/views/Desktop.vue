@@ -4,7 +4,7 @@
       <grid-layout :layout="layout" :col-num="40" :row-height="30" :is-draggable="draggable" :auto-size="true" :margin="[40, 10]"
         :is-resizable="resizable" :is-bounded="bounded" :vertical-compact="false" :use-css-transforms="true">
         <grid-item v-for="(item, index) in returnLayout" :key="index" :static="item.static" :x="item.x" :y="item.y"
-          :w="item.w" :h="item.h" :i="item.i">
+          :w="item.w" :h="item.h" :i="item.i" style="touch-action: none; transform: none !important;">
           <div class="bg-gray-200" @dblclick="item.click">
             <v-img :src="getImageName(item.icon)" :alt="item.icon" style="height: 5vh;"></v-img>
             <p class="text-white text-center">{{item.label}}</p>
@@ -44,8 +44,8 @@ export default defineComponent({
   data() {
       return {
         layout: [
-          {x: 0, y: 0, w: 2, h: 2, i: '0', static: false, label: 'App', icon: 'folder.png' ,click: this.folderClickFunction},
-          {x: 0, y: 2, w: 2, h: 2, i: '2', static: false, label: 'Github', icon: 'github.webp' ,click: this.githubClickFunction},
+          {x: 0, y: 0, w: 2, h: 2, i: '0', static: false, label: 'App', icon: 'folder' ,click: this.folderClickFunction},
+          {x: 0, y: 2, w: 2, h: 2, i: '2', static: false, label: 'Github', icon: 'github' ,click: this.githubClickFunction},
         ] as Array<GridMaker>,
         draggable: true,
         resizable: false,
@@ -58,13 +58,20 @@ export default defineComponent({
       returnLayout() {
         return this.layout
       },
+      folderIcon() {
+        return new URL('@/assets/icons/folder.png', import.meta.url).href
+      },
+      githubIcon() {
+        return new URL('@/assets/icons/github.webp', import.meta.url).href
+      }
     },
     methods: {
       log(event : any) {
         console.log(event)
       },
       getImageName(name: string) {
-        return new URL('../assets/icons/' + name, import.meta.url).href
+        if(name === 'folder') return this.folderIcon
+        if(name === 'github') return this.githubIcon
       },
       folderClickFunction(event: any) {
         console.log('double clicked', event)
