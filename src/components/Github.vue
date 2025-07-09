@@ -1,33 +1,47 @@
 <template>
     <div v-if="isVisible" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
         <div class="flex">
-            <grid-layout :layout="layout" :col-num="40" :row-height="10" :is-draggable="draggable" :auto-size="true"
+            <grid-layout :layout="layout" :col-num="40" :row-height="10" :is-draggable="draggable" :auto-size="true" :responsive="false"
                 :is-resizable="resizable" :is-bounded="bounded" :vertical-compact="false" :use-css-transforms="true">
                 <grid-item v-for="(item, index) in returnLayout" :key="index" :static="item.static" :x="item.x"
-                    drag-allow-from=".header" drag-ignore-from=".no-drag" :y="item.y" :w="item.w"
-                    :h="item.h" :i="item.i" style="touch-action: none; transform: none !important;">
-                    <div class="bg-gray-200 rounded-lg border-lg border-white" @dblclick="item.click" style="height: 100%;"
-                        :class="{ 'vue-resizable-handle': isBorderHovered }" @mousemove="handleMouseMove"
-                        @mouseout="handleMouseOut">
+                    drag-allow-from=".header" drag-ignore-from=".no-drag" :y="item.y" :w="item.w" :h="item.h"
+                    :i="item.i" style="touch-action: none; transform: none !important;">
+                    <div class="bg-gray-200 rounded-lg border-lg border-white" @dblclick="item.click"
+                        style="height: 100%;" :class="{ 'vue-resizable-handle': isBorderHovered }"
+                        @mousemove="handleMouseMove" @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
                             <div>
                                 <v-icon>mdi mdi-github</v-icon>
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>
                             <div class="d-flex ga-2">
-                                <v-btn class="action-button pa-2"  size="x-small">
-                                    <v-icon >mdi mdi-window-minimize</v-icon>
+                                <v-btn class="action-button pa-2" size="x-small">
+                                    <v-icon>mdi mdi-window-minimize</v-icon>
                                 </v-btn>
-                                <v-btn class="action-button pa-2"  size="x-small" @click="maximizeItem(index)">
-                                    <v-icon size="x-small" >mdi mdi-window-restore</v-icon>
+                                <v-btn class="action-button pa-2" size="x-small" @click="maximizeItem(index)">
+                                    <v-icon size="x-small">mdi mdi-window-restore</v-icon>
                                 </v-btn>
-                                <v-btn class="action-button pa-2"  size="x-small"  @click="removeItem(index)">
+                                <v-btn class="action-button pa-2" size="x-small" @click="removeItem(index)">
                                     <v-icon size="x-small">mdi mdi-close</v-icon>
                                 </v-btn>
                             </div>
                         </div>
-                        <div class="w-full h-100 bg-grey rounded-b-lg pa-5 no-drag">
-                            <iframe title="Github" class="w-full h-100" src="https://github.com/NitroXander" ></iframe>
+                        <div class="w-full h-100 bg-grey rounded-b-lg pa-5 no-drag" style="overflow-y: scroll; max-height: 80%;">
+                            <div class="d-flex flex-column " style="text-align: center;">
+                                <p class="text-h2">My GitHub Profile</p>
+
+                                <a href="https://github.com/NitroXander" target="_blank">
+                                    <img src="https://avatars.githubusercontent.com/u/27045480?v=4" width="100"
+                                        style="border-radius: 50%;" alt="NitroXander GitHub Avatar" />
+                                    <p>@NitroXander</p>
+                                </a>
+                                <img src="https://ghchart.rshah.org/NitroXander" alt="NitroXander's GitHub chart" />
+                                <p>See all contributions: <a href="https://github.com/NitroXander"
+                                        target="_blank">github.com/NitroXander</a></p>
+                                <p>> Over 2000+ PRs contributed to private organization repositories.
+                                </p>
+                                <img src="https://github-readme-streak-stats.herokuapp.com/?user=NitroXander&theme=radical" alt="NitroXander's GitHub Streak"/>
+                            </div>
                         </div>
                     </div>
                 </grid-item>
@@ -74,7 +88,7 @@ export default defineComponent({
             maximized: false,
             oldLocation: new GridMaker,
             desktopItem: {
-                x: 10, y: 5, w: 20, h: 20, i: '0', static: false, label: 'GitHub', icon: 'folder.png'
+                x: 10, y: 5, w: 20, h: 35, i: '0', static: false, label: 'GitHub', icon: 'folder.png'
                 , click: this.folderClickFunction
             } as GridMaker,
         }
