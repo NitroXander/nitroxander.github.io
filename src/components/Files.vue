@@ -11,6 +11,7 @@
                         @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
                             <div>
+                                <v-icon >mdi mdi-folder</v-icon>
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>
                             <div class="d-flex ga-2">

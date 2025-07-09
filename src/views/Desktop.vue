@@ -1,7 +1,7 @@
 <template>
   <div style="height:100vh; z-index: 0;">
     <div class="flex m-10">
-      <grid-layout :layout="layout" :col-num="40" :row-height="30" :is-draggable="draggable" :auto-size="true"
+      <grid-layout :layout="layout" :col-num="40" :row-height="30" :is-draggable="draggable" :auto-size="true" :margin="[40, 10]"
         :is-resizable="resizable" :is-bounded="bounded" :vertical-compact="false" :use-css-transforms="true">
         <grid-item v-for="(item, index) in returnLayout" :key="index" :static="item.static" :x="item.x" :y="item.y"
           :w="item.w" :h="item.h" :i="item.i">
@@ -45,7 +45,7 @@ export default defineComponent({
       return {
         layout: [
           {x: 0, y: 0, w: 2, h: 2, i: '0', static: false, label: 'App', icon: 'folder.png' ,click: this.folderClickFunction},
-          {x: 0, y: 2, w: 2, h: 2, i: '0', static: false, label: 'Github', icon: 'github.webp' ,click: this.githubClickFunction},
+          {x: 0, y: 2, w: 2, h: 2, i: '2', static: false, label: 'Github', icon: 'github.webp' ,click: this.githubClickFunction},
         ] as Array<GridMaker>,
         draggable: true,
         resizable: false,

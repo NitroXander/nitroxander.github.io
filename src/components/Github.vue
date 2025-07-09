@@ -11,6 +11,7 @@
                         @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
                             <div>
+                                <v-icon>mdi mdi-github</v-icon>
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>
                             <div class="d-flex ga-2">
@@ -26,7 +27,7 @@
                             </div>
                         </div>
                         <div class="w-full h-100 bg-grey rounded-b-lg pa-5 no-drag">
-                            <embed title="Github" class="w-full h-100" src="https://github.com/NitroXander" ></embed>
+                            <iframe title="Github" class="w-full h-100" src="https://github.com/NitroXander" ></iframe>
                         </div>
                     </div>
                 </grid-item>
@@ -73,7 +74,7 @@ export default defineComponent({
             maximized: false,
             oldLocation: new GridMaker,
             desktopItem: {
-                x: 10, y: 5, w: 20, h: 20, i: '0', static: false, label: 'App', icon: 'folder.png'
+                x: 10, y: 5, w: 20, h: 20, i: '0', static: false, label: 'GitHub', icon: 'folder.png'
                 , click: this.folderClickFunction
             } as GridMaker,
         }
