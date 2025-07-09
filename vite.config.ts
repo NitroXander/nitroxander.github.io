@@ -29,5 +29,5 @@ export default defineConfig({
         open: true,
         cors: true,
     },
-    base: '/',
+    base: '/nitroxander.github.io/',
 })
