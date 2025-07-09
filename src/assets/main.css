@@ -1,0 +1,32 @@
+@import "./base.css";
+
+.start-menu {
+  display: flex;
+  width: 100vw; /* Initial circle width */
+  height: 5vh;
+  background-color: #C0C0C0;
+  font-size: 1.5em;
+  font-weight: bold;
+  position: fixed; /* Fixed to bottom */
+  bottom: 0px; /* Distance from bottom */
+}
+
+.start-btn
+{
+    height: 5vh !important;
+}
+
+
+.action-button {
+  background-color: rgb(175, 175, 175) !important;
+  height: 2.5vh !important;
+  width: 2.5vh !important;
+  color: black !important;
+}
+
+.vue-resizable-handle{
+  width: auto !important;
+  position: relative !important;
+  padding: 0 !important;
+  background: none !important;
+}

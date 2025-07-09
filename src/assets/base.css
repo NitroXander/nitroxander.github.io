@@ -1,0 +1,57 @@
+.app-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8vh; /* Initial circle width */
+  height: 8vh;
+  background-color: #42b98388;
+  border: 1px solid #42b983;
+  color: white;
+  border-radius: 50%; /* Circle shape */
+  font-size: 1.5em;
+  font-weight: bold;
+  position: fixed; /* Fixed to bottom */
+  bottom: 10px; /* Distance from bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Offset for centering */
+  transition: width 500ms ease-in-out, border-radius 500ms ease-in-out,
+    opacity 500ms ease-in-out;
+}
+
+/* Circle content (default) */
+.circle-content {
+  display: block;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Pill content (hover) */
+.pill-content {
+  display: none;
+  cursor:default;
+  text-align: center;
+}
+
+/* Hover state */
+.app-pill:hover {
+  background-color: #42b98388;
+  border: 1px solid #42b983;
+  border-radius: 50px; /* Pill shape */
+  gap: 16px;
+  padding: 32px !important;
+  width: auto; /* Wider for pill */
+}
+
+/* Content switching on hover */
+.app-pill:hover .circle-content {
+  display: none;
+}
+
+.app-pill:hover .pill-content {
+  display: block;
+}
+
+
+.text-large{
+    font-size: 1.09em;
+}
