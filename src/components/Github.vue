@@ -11,7 +11,7 @@
                         :class="{ 'vue-resizable-handle': isBorderHovered }" @mousemove="handleMouseMove"
                         @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
-                            <div>
+                            <div class="d-flex ga-2">
                                 <v-icon>mdi mdi-github</v-icon>
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>

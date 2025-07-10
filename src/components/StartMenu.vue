@@ -6,8 +6,10 @@
         </v-btn>
         <div class="ga-2" v-for="(opendedWindows, index) in items" :key="index">
             <v-btn flat class="start-btn" @click="changeState(index)" :variant="opendedWindows.itemState == 'opened' ? 'outlined' : undefined">
-                <v-img :src="opendedWindows.icon"></v-img>
-                <p class="text-h6 font-weight-bold">{{ opendedWindows.itemName }}</p>
+                <v-icon>
+                    <v-img :src="opendedWindows.icon"></v-img>
+                </v-icon>
+                <p class="ml-2 text-h6 font-weight-bold">{{ opendedWindows.itemName }}</p>
             </v-btn>
         </div>
     </div>

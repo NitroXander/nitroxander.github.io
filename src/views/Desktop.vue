@@ -16,8 +16,8 @@
        <StartMenu :items="openedWindows" @changeState="changeItemState"/>
     </div>
   </div>
-  <Files style="z-index: 1; max-height: 95vh;" :isVisible="showDocs" @close="showDocs = false" @minimize="minimizeFiles"></Files>
-  <Github style="z-index: 1; max-height: 95vh;" :isVisible="showGithub" @close="showGithub = false" @minimize="minimizeGithub"></Github>
+  <Files style="z-index: 1; max-height: 95vh;" :isVisible="showDocs" @close="closeFiles" @minimize="minimizeFiles"></Files>
+  <Github style="z-index: 1; max-height: 95vh;" :isVisible="showGithub" @close="closeGithub" @minimize="minimizeGithub"></Github>
 </template>
 
 <script lang="ts">
@@ -45,7 +45,7 @@ export default defineComponent({
   data() {
       return {
         layout: [
-          {x: 0, y: 0, w: 2, h: 2, i: '0', static: false, label: 'App', icon: 'folder' ,click: this.folderClickFunction},
+          {x: 0, y: 0, w: 2, h: 2, i: '0', static: false, label: 'Files', icon: 'folder' ,click: this.folderClickFunction},
           {x: 0, y: 2, w: 2, h: 2, i: '2', static: false, label: 'Github', icon: 'github' ,click: this.githubClickFunction},
         ] as Array<GridMaker>,
         draggable: true,
@@ -78,6 +78,18 @@ export default defineComponent({
             this.showDocs = false
           }
         })
+      },
+      closeFiles(){
+        this.showDocs = false
+
+        // find docs on openedWindows and remove it
+        this.openedWindows = this.openedWindows.filter(item => item.itemName != 'Files')
+      },
+      closeGithub(){
+        this.showGithub = false
+
+        // find docs on openedWindows and remove it
+        this.openedWindows = this.openedWindows.filter(item => item.itemName != 'Github')
       },
       minimizeGithub(){
         this.openedWindows.forEach(item => {

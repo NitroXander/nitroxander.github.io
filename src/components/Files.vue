@@ -11,7 +11,7 @@
                         :class="{ 'vue-resizable-handle': isBorderHovered }" @mousemove="handleMouseMove"
                         @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
-                            <div>
+                            <div class="d-flex ga-2">
                                 <v-icon >mdi mdi-folder</v-icon>
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>
@@ -77,7 +77,7 @@ export default defineComponent({
             maximized: false,
             oldLocation: new GridMaker,
             desktopItem: {
-                x: 10, y: 5, w: 20, h: 20, i: '0', static: false, label: 'App', icon: 'folder.png'
+                x: 10, y: 5, w: 20, h: 20, i: '0', static: false, label: 'Files', icon: 'folder.png'
                 , click: this.folderClickFunction
             } as GridMaker,
         }
@@ -119,7 +119,7 @@ export default defineComponent({
         removeItem(index: number) {
             this.layout.splice(index, 1);
             this.maximized = false
-            this.$emit('close')
+            this.$emit('close', index)
         },
         maximizeItem(index: number) {
             if (!this.maximized) {
