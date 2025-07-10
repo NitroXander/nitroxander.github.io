@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100vh; z-index: 0;">
+  <div style="height:100vh; z-index: 0;overflow-y: hidden;">
     <div class="flex m-10">
       <grid-layout :layout="layout" :col-num="40" :row-height="30" :is-draggable="draggable" :auto-size="true" :margin="[40, 10]"
         :is-resizable="resizable" :is-bounded="bounded" :vertical-compact="false" :use-css-transforms="true">
@@ -13,11 +13,11 @@
       </grid-layout>
     </div>
     <div style="justify-items: center; align-content: flex-end; height:8vh;">
-       <StartMenu/>
+       <StartMenu :items="openedWindows" @changeState="changeItemState"/>
     </div>
   </div>
-  <Files style="z-index: 1;" :isVisible="showDocs" @close="showDocs = false"></Files>
-  <Github style="z-index: 1;" :isVisible="showGithub" @close="showGithub = false" frame-ancestors="none"></Github>
+  <Files style="z-index: 1; max-height: 95vh;" :isVisible="showDocs" @close="showDocs = false" @minimize="minimizeFiles"></Files>
+  <Github style="z-index: 1; max-height: 95vh;" :isVisible="showGithub" @close="showGithub = false" @minimize="minimizeGithub"></Github>
 </template>
 
 <script lang="ts">
@@ -28,6 +28,7 @@ import StartMenu from '@/components/StartMenu.vue';
 import type { GridMaker } from '@/helpers/GridMaker';
 import Files from '@/components/Files.vue';
 import Github from '@/components/Github.vue';
+import type { WindowItems } from '@/helpers/WindowItems';
 
 export default defineComponent({
   setup () {
@@ -49,9 +50,10 @@ export default defineComponent({
         ] as Array<GridMaker>,
         draggable: true,
         resizable: false,
-        bounded: true,
+        bounded: false,
         showDocs: false,
         showGithub: false,
+        openedWindows : [] as Array<WindowItems>,
       }
     },
     computed: {
@@ -69,18 +71,62 @@ export default defineComponent({
       log(event : any) {
         console.log(event)
       },
+      minimizeFiles(){
+        this.openedWindows.forEach(item => {
+          if(item.itemName == 'Files'){
+            item.itemState = 'minimized'
+            this.showDocs = false
+          }
+        })
+      },
+      minimizeGithub(){
+        this.openedWindows.forEach(item => {
+          if(item.itemName == 'Github'){
+            item.itemState = 'minimized'
+            this.showGithub = false
+          }
+        })
+      },
       getImageName(name: string) {
         if(name === 'folder') return this.folderIcon
         if(name === 'github') return this.githubIcon
       },
       folderClickFunction(event: any) {
         console.log('double clicked', event)
-        this.showDocs = true
+        const openedFile = this.openedWindows.find(item => item.itemName === "Files");
+        if(openedFile){
+          this.showDocs = true
+        }
+        else{
+          console.log('adding new ')
+          this.openedWindows.push({itemName:'Files', itemState: 'opened', icon : this.folderIcon})
+          this.showDocs = true
+        }
       },
       githubClickFunction(event: any) {
         console.log('double clicked', event)
-        this.showGithub = true
+        const opendedGit = this.openedWindows.find(item => item.itemName === "Github");
+        if(opendedGit){
+          this.showGithub = true
+        }
+        else{
+          console.log('adding new ')
+          this.openedWindows.push({itemName:'Github', itemState: 'opened', icon : this.folderIcon})
+          this.showGithub = true
+        }
       },
+      changeItemState(index : number){
+        if(this.openedWindows[index].itemState == 'minimized'){
+          this.openedWindows[index].itemState = 'opened'
+          if(this.openedWindows[index].itemName == 'Files') this.showDocs = true
+          if(this.openedWindows[index].itemName == 'Github') this.showGithub = true
+        }
+        else{
+          this.openedWindows[index].itemState = 'minimized'
+          if(this.openedWindows[index].itemName == 'Files') this.showDocs = false
+          if(this.openedWindows[index].itemName == 'Github') this.showGithub = false
+        } 
+      }
     },
 })
 </script>

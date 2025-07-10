@@ -25,7 +25,11 @@ export default {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  overflow-y: hidden;
   max-height: 100vh;
+}
+p{
+  font-family: 'Jersey10', sans-serif !important;
 }
 
 @font-face {

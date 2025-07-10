@@ -1,12 +1,13 @@
 <template>
-    <div v-if="isVisible" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+    <div v-if="isVisible" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: hidden;">
         <div class="flex">
-            <grid-layout :layout="layout" :col-num="40" :row-height="10" :is-draggable="draggable" :auto-size="true"
+            <grid-layout :layout="layout" :col-num="40" :row-height="9" :max-cols="40"
+                :is-draggable="draggable" :auto-size="true" :margin=[0,0]
                 :is-resizable="resizable" :is-bounded="bounded" :vertical-compact="false" :use-css-transforms="true">
-                <grid-item v-for="(item, index) in returnLayout" :key="index" :static="item.static" :x="item.x"
+                <grid-item v-for="(item, index) in returnLayout" :key="index" :static="item.static" :x="item.x" :max-h="99"
                     drag-allow-from=".header" drag-ignore-from=".no-drag" :y="item.y" :w="item.w"
                     :h="item.h" :i="item.i" style="touch-action: none; transform: none !important;">
-                    <div class="bg-gray-200 rounded-lg border-lg border-white" @dblclick="item.click" style="height: 100%;"
+                    <div class="bg-gray-200 rounded-lg " @dblclick="item.click" style="height: 90%;"
                         :class="{ 'vue-resizable-handle': isBorderHovered }" @mousemove="handleMouseMove"
                         @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
@@ -15,7 +16,7 @@
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>
                             <div class="d-flex ga-2">
-                                <v-btn class="action-button pa-2"  size="x-small">
+                                <v-btn class="action-button pa-2"  size="x-small" @click="minimizeItem(index)">
                                     <v-icon >mdi mdi-window-minimize</v-icon>
                                 </v-btn>
                                 <v-btn class="action-button pa-2"  size="x-small" @click="maximizeItem(index)">
@@ -55,12 +56,14 @@ export default defineComponent({
             default: false
         }
     },
-    emits: ['close'],
+    emits: ['close', 'minimize'],
     watch: {
         isVisible(newVal: boolean) {
             if (newVal) {
                 this.maximized = false
-                this.layout.push(this.desktopItem)
+                if(this.layout.length == 0){
+                    this.layout.push(this.desktopItem)
+                }
             }
         }
     },
@@ -69,7 +72,7 @@ export default defineComponent({
             layout: [] as Array<GridMaker>,
             draggable: true,
             resizable: true,
-            bounded: true,
+            bounded: false,
             isBorderHovered: false,
             maximized: false,
             oldLocation: new GridMaker,
@@ -125,7 +128,7 @@ export default defineComponent({
                 this.layout[index].x = 0
                 this.layout[index].y = 0
                 this.layout[index].w = 40
-                this.layout[index].h = 40
+                this.layout[index].h = 99
                 this.maximized = true
             }
             else {
@@ -133,6 +136,9 @@ export default defineComponent({
                 this.layout[index] = { ...this.oldLocation }
                 this.maximized = false
             }
+        },
+        minimizeItem(index : number){
+            this.$emit('minimize',index)
         }
     },
 })

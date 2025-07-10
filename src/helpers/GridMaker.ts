@@ -17,7 +17,7 @@ export class GridMaker{
         this.y = 0
         this.w = 0
         this.h = 0
-        this.i = ""
+        this.i = "0"
         this.static = false
         this.icon = ""
         this.label = ""
