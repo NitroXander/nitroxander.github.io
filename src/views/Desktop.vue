@@ -13,7 +13,7 @@
       </grid-layout>
     </div>
     <div style="justify-items: center; align-content: flex-end; height:8vh;">
-       <StartMenu :items="openedWindows" @changeState="changeItemState"/>
+       <StartMenu :items="desktopStore.openedWindows" @changeState="changeItemState"/>
     </div>
   </div>
   <Files style="z-index: 1; max-height: 95vh;" :isVisible="showDocs" @close="closeFiles" @minimize="minimizeFiles"></Files>
@@ -28,11 +28,14 @@ import StartMenu from '@/components/StartMenu.vue';
 import type { GridMaker } from '@/helpers/GridMaker';
 import Files from '@/components/Files.vue';
 import Github from '@/components/Github.vue';
-import type { WindowItems } from '@/helpers/WindowItems';
+import { useDesktopStore } from '@/store/desktopStore';
 
 export default defineComponent({
   setup () {
-    return {}
+    const desktopStore = useDesktopStore();
+    return {
+      desktopStore
+    }
   },
   components: {
     StartMenu,
@@ -53,7 +56,6 @@ export default defineComponent({
         bounded: false,
         showDocs: false,
         showGithub: false,
-        openedWindows : [] as Array<WindowItems>,
       }
     },
     computed: {
@@ -72,7 +74,7 @@ export default defineComponent({
         console.log(event)
       },
       minimizeFiles(){
-        this.openedWindows.forEach(item => {
+        this.desktopStore.openedWindows.forEach(item => {
           if(item.itemName == 'Files'){
             item.itemState = 'minimized'
             this.showDocs = false
@@ -83,16 +85,16 @@ export default defineComponent({
         this.showDocs = false
 
         // find docs on openedWindows and remove it
-        this.openedWindows = this.openedWindows.filter(item => item.itemName != 'Files')
+        this.desktopStore.openedWindows = this.desktopStore.openedWindows.filter(item => item.itemName != 'Files')
       },
       closeGithub(){
         this.showGithub = false
 
         // find docs on openedWindows and remove it
-        this.openedWindows = this.openedWindows.filter(item => item.itemName != 'Github')
+        this.desktopStore.openedWindows = this.desktopStore.openedWindows.filter(item => item.itemName != 'Github')
       },
       minimizeGithub(){
-        this.openedWindows.forEach(item => {
+        this.desktopStore.openedWindows.forEach(item => {
           if(item.itemName == 'Github'){
             item.itemState = 'minimized'
             this.showGithub = false
@@ -105,38 +107,38 @@ export default defineComponent({
       },
       folderClickFunction(event: any) {
         console.log('double clicked', event)
-        const openedFile = this.openedWindows.find(item => item.itemName === "Files");
+        const openedFile = this.desktopStore.openedWindows.find(item => item.itemName === "Files");
         if(openedFile){
           this.showDocs = true
         }
         else{
           console.log('adding new ')
-          this.openedWindows.push({itemName:'Files', itemState: 'opened', icon : this.folderIcon})
+          this.desktopStore.openedWindows.push({itemName:'Files', itemState: 'opened', icon : this.folderIcon})
           this.showDocs = true
         }
       },
       githubClickFunction(event: any) {
         console.log('double clicked', event)
-        const opendedGit = this.openedWindows.find(item => item.itemName === "Github");
+        const opendedGit = this.desktopStore.openedWindows.find(item => item.itemName === "Github");
         if(opendedGit){
           this.showGithub = true
         }
         else{
           console.log('adding new ')
-          this.openedWindows.push({itemName:'Github', itemState: 'opened', icon : this.folderIcon})
+          this.desktopStore.openedWindows.push({itemName:'Github', itemState: 'opened', icon : this.folderIcon})
           this.showGithub = true
         }
       },
       changeItemState(index : number){
-        if(this.openedWindows[index].itemState == 'minimized'){
-          this.openedWindows[index].itemState = 'opened'
-          if(this.openedWindows[index].itemName == 'Files') this.showDocs = true
-          if(this.openedWindows[index].itemName == 'Github') this.showGithub = true
+        if(this.desktopStore.openedWindows[index].itemState == 'minimized'){
+          this.desktopStore.openedWindows[index].itemState = 'opened'
+          if(this.desktopStore.openedWindows[index].itemName == 'Files') this.showDocs = true
+          if(this.desktopStore.openedWindows[index].itemName == 'Github') this.showGithub = true
         }
         else{
-          this.openedWindows[index].itemState = 'minimized'
-          if(this.openedWindows[index].itemName == 'Files') this.showDocs = false
-          if(this.openedWindows[index].itemName == 'Github') this.showGithub = false
+          this.desktopStore.openedWindows[index].itemState = 'minimized'
+          if(this.desktopStore.openedWindows[index].itemName == 'Files') this.showDocs = false
+          if(this.desktopStore.openedWindows[index].itemName == 'Github') this.showGithub = false
         } 
       }
     },

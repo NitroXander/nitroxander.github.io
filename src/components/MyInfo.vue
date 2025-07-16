@@ -12,13 +12,10 @@
                         @mouseout="handleMouseOut">
                         <div class="d-flex justify-space-between pa-2 rounded-t-lg bg-grey-darken-2 header">
                             <div class="d-flex ga-2">
-                                <v-icon>mdi mdi-github</v-icon>
+                                <v-icon>mdi mdi-folder</v-icon>
                                 <p class="text-white text-large">{{ item.label }}</p>
                             </div>
                             <div class="d-flex ga-2">
-                                <v-btn class="action-button pa-2" size="x-small" @click="minimizeItem(index)">
-                                    <v-icon>mdi mdi-window-minimize</v-icon>
-                                </v-btn>
                                 <v-btn class="action-button pa-2" size="x-small" @click="maximizeItem(index)">
                                     <v-icon size="x-small">mdi mdi-window-restore</v-icon>
                                 </v-btn>
@@ -27,28 +24,15 @@
                                 </v-btn>
                             </div>
                         </div>
-                        <div class="w-full h-100 bg-grey rounded-b-lg pa-5 no-drag"
-                            style="overflow-y: scroll; ">
-                            <div class="d-flex flex-column " style="text-align: center;">
-                                <p class="text-h2">My GitHub Profile</p>
-
-                                <a href="https://github.com/NitroXander" target="_blank">
-                                    <img src="https://avatars.githubusercontent.com/u/27045480?v=4" width="100"
-                                        style="border-radius: 50%;" alt="NitroXander GitHub Avatar" />
-                                    <p>@NitroXander</p>
-                                </a>
-                                <img src="https://ghchart.rshah.org/NitroXander" alt="NitroXander's GitHub chart" />
-                                <p>See all contributions: <a href="https://github.com/NitroXander"
-                                        target="_blank">github.com/NitroXander</a></p>
-                                <p>> Over 500+ PRs contributed to private organization repositories.
-                                </p>
-                                <img src="https://github-readme-streak-stats.herokuapp.com/?user=NitroXander&theme=radical"
-                                    alt="NitroXander's GitHub Streak" />
-
-                                <p class="text-h2">My GitHub Trophies</p>
-                                <img src="https://github-profile-trophy.vercel.app/?username=nitroxander"
-                                    alt="NitroXander's GitHub Trophies" />
-                            </div>
+                        <div class="w-full h-100 bg-grey rounded-b-lg pa-5 no-drag" style="overflow-y: scroll; ">
+                            <v-row>
+                                <v-col cols="12" md="6" v-for="(skill, index) in skillSet" :key="index">
+                                    <v-card>
+                                        <p class="text-h4 pa-5"> {{ skill.icon }} {{ skill.title }} </p>
+                                        <p class="text-h6 px-5 pb-2">{{ skill.description }}</p>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
                         </div>
                     </div>
                 </grid-item>
@@ -81,7 +65,7 @@ export default defineComponent({
         isVisible(newVal: boolean) {
             if (newVal) {
                 this.maximized = false
-                if(this.layout.length == 0){
+                if (this.layout.length == 0) {
                     this.layout.push(this.desktopItem)
                 }
             }
@@ -97,9 +81,39 @@ export default defineComponent({
             maximized: false,
             oldLocation: new GridMaker,
             desktopItem: {
-                x: 10, y: 5, w: 20, h: 35, i: '0', static: false, label: 'GitHub', icon: 'folder.png'
+                x: 11, y: 8, w: 20, h: 65, i: '0', static: false, label: 'My Skills', icon: 'folder.png'
                 , click: this.folderClickFunction
             } as GridMaker,
+            skillSet: [
+                {
+                    icon: '🧠', title: 'Frontend Development', description:
+                        "I work extensively with Vue 3 (Composition/Options API) to build SPAs and installable PWAs. I use Tailwind CSS for fast, responsive styling and prefer Vite for its modern, lightning-fast dev environment. My approach is modular — I build with reusable components, dynamic rendering, and clean architecture.",
+                },
+                {
+                    icon: '⚙️', title: 'JavaScript & TypeScript', description:
+                        "I have a solid grasp of core JS and TS concepts like object/array manipulation and async flows. I'm comfortable writing reusable logic (e.g., encryption utility functions) and organizing code for scalability and clarity."
+                },
+                {
+                    icon: '🔧', title: 'Backend Integration', description:
+                        "I integrate frontend components with backend APIs (e.g., using NetworkManager.apiRequest), manage async flows, and provide smooth UX with things like button loaders and responsive feedback."
+                },
+                {
+                    icon: '🛠️', title: 'Debugging & Optimization', description:
+                        "I care about clean, maintainable code. I’ve handled code quality issues like duplicated logic flagged by tools like SonarQube, and regularly debug layout and rendering issues, such as CSS truncation or overflow bugs."
+                },
+                {
+                    icon: '📊', title: 'GitHub & Contributions', description:
+                        "I’ve contributed over 1000+ PRs across organization-level projects, working collaboratively in team environments. I'm also familiar with GitHub profile customization — from contribution graphs to profile trophies."
+                },
+                {
+                    icon: '🧩', title: 'UI/UX', description:
+                        "I'm detail-oriented when it comes to UI and UX — from responsive layouts to meaningful micro-interactions. I also customize visuals like icons, layout behavior, and interactions for better usability."
+                },
+                {
+                    icon: '📄', title: 'Other Notable Areas', description:
+                        "I track personal and team performance with KPIs, continuously evolving how I work. I enjoy experimenting with tooling (e.g., iframe restrictions, contribution visualizers) and building installable, scalable web apps — not just throwaway UIs."
+                },
+            ],
         }
     },
     computed: {
@@ -157,9 +171,6 @@ export default defineComponent({
                 this.maximized = false
             }
         },
-        minimizeItem(index : number){
-            this.$emit('minimize',index)
-        }
     },
 })
 </script>

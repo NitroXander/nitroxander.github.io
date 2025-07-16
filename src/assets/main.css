@@ -9,11 +9,65 @@
   font-weight: bold;
   position: fixed; /* Fixed to bottom */
   bottom: 0px; /* Distance from bottom */
+  z-index: 1;
+}
+
+.custom-start-menu {
+  background-color: #C0C0C0;
+  position: fixed;
+  bottom: 5vh;
+  left: 0;
+  width: clamp(200px, 40vw, 400px); /* Responsive width with min/max */
+  height: clamp(200px, 50vh, 500px); /* Responsive height with min/max */
+  border: 2px outset #ffffff; /* Win 95-style border */
+  box-shadow: inset -1px -1px #000000, inset 1px 1px #dfdfdf; /* Win 95 shadow */
+  z-index: 1000; /* Ensure menu is above other content */
+}
+
+.start-menu-title {
+  color: #C0C0C0;
+  background-color: #6b6b6b;
+  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Slightly smaller for better fit */
+  font-weight: bold;
+  position: absolute;
+  bottom: 0.2vh;
+  left: 0;
+  transform: rotate(-90deg) translateY(6.1vh);
+  transform-origin: bottom left;
+  padding: 0.5rem;
+  width: 49vh; /* Full height of the menu (after rotation) */
+  box-sizing: border-box; /* Prevent padding issues */
+}
+
+.power-button {
+  position: absolute;
+  bottom: 0; /* Distance from bottom */
+  left: 5em; /* Distance from right */
+  background-color: #C0C0C0;
+  border: 2px outset #ffffff; /* Win 95 button border */
+  box-shadow: inset -1px -1px #000000, inset 1px 1px #dfdfdf; /* Win 95 shadow */
+  color: #000000;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-weight: bold;
+  padding: 0.5rem;
+  text-transform: none !important; /* Remove Vuetify's default uppercase */
+  display: flex;
+}
+
+.power-button:hover {
+  background-color: #dfdfdf; /* Lighten on hover */
+}
+
+/* Style for the inner div of .start-menu-title */
+.start-menu-title > p {
+  width: auto; /* Remove fixed width for responsiveness */
+  margin: 0rem 1rem; /* Consistent, responsive margins */
 }
 
 .start-btn
 {
     height: 5vh !important;
+    z-index: 1;
 }
 
 
