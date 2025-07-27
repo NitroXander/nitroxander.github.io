@@ -5,11 +5,12 @@
             <p class="text-h6 font-weight-bold">Start</p>
         </v-btn>
         <div class="ga-2" v-for="(opendedWindows, index) in items" :key="index">
-            <v-btn flat class="start-btn" @click="changeState(index)" :variant="opendedWindows.itemState == 'opened' ? 'outlined' : undefined">
-            <v-icon>
-                <v-img :src="opendedWindows.icon"></v-img>
-            </v-icon>
-            <p class="ml-2 text-h6 font-weight-bold">{{ opendedWindows.itemName }}</p>
+            <v-btn flat class="start-btn" @click="changeState(index)"
+                :variant="opendedWindows.itemState == 'opened' ? 'outlined' : undefined">
+                <v-icon>
+                    <v-img :src="opendedWindows.icon"></v-img>
+                </v-icon>
+                <p class="ml-2 text-h6 font-weight-bold">{{ opendedWindows.itemName }}</p>
             </v-btn>
         </div>
 
@@ -31,27 +32,36 @@ import { WindowItems } from '@/helpers/WindowItems';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    setup () {
+    setup() {
         return {}
     },
     props: {
-        items :{
-            type : Array<WindowItems>,
-            default :[]
+        items: {
+            type: Array<WindowItems>,
+            default: []
         }
     },
-    emits :['changeState'],
+    emits: ['changeState'],
     data() {
         return {
-            openStartMenu : false
+            openStartMenu: false
         }
     },
-    methods:{
-        changeState(index :number){
+    methods: {
+        changeState(index: number) {
             this.$emit('changeState', index)
         },
-        closeSite(){
-            window.close()
+        closeSite() {
+            // close the tab completely
+            if (confirm("Leaving already? Hope you enjoyed it!")) {
+                window.close();
+                // Fallback if window.close() doesn't work
+                setTimeout(() => {
+                    if (!window.closed) {
+                        alert("This tab cannot be closed programmatically. Please close it manually.");
+                    }
+                }, 100);
+            }
         }
     }
 })

@@ -4,20 +4,21 @@
       <grid-layout :layout="layout" :col-num="40" :row-height="30" :is-draggable="draggable" :auto-size="true" :margin="[40, 10]"
         :is-resizable="resizable" :is-bounded="bounded" :vertical-compact="false" :use-css-transforms="true">
         <grid-item v-for="(item, index) in returnLayout" :key="index" :static="item.static" :x="item.x" :y="item.y"
-          :w="item.w" :h="item.h" :i="item.i" style="touch-action: none; transform: none !important;">
-          <div class="bg-gray-200" @dblclick="item.click">
+          :w="item.w" :h="item.h" :i="item.i" drag-ignore-from=".no-drag" style="touch-action: none; transform: none !important;">
+          <div class="bg-gray-200 no-drag cursor-pointer" @dblclick="item.click">
             <v-img :src="getImageName(item.icon)" :alt="item.icon" style="height: 5vh;"></v-img>
             <p class="text-white text-center">{{item.label}}</p>
           </div>
         </grid-item>
       </grid-layout>
     </div>
-    <div style="justify-items: center; align-content: flex-end; height:8vh;">
-       <StartMenu :items="desktopStore.openedWindows" @changeState="changeItemState"/>
+    <div style="justify-items: center; align-content: flex-end; height:8vh; z-index: 99999999 !important;">
+       <StartMenu :items="desktopStore.openedWindows" @changeState="changeItemState" style="z-index: 99999999 !important;"/>
     </div>
   </div>
   <Files style="z-index: 1; max-height: 95vh;" :isVisible="showDocs" @close="closeFiles" @minimize="minimizeFiles"></Files>
   <Github style="z-index: 1; max-height: 95vh;" :isVisible="showGithub" @close="closeGithub" @minimize="minimizeGithub"></Github>
+  <InfoWindow style="z-index: 1 !important; max-height: 95vh;" :isVisible="showMyInfo" @close="showMyInfo = false"></InfoWindow>
 </template>
 
 <script lang="ts">
@@ -29,6 +30,7 @@ import type { GridMaker } from '@/helpers/GridMaker';
 import Files from '@/components/Files.vue';
 import Github from '@/components/Github.vue';
 import { useDesktopStore } from '@/store/desktopStore';
+import InfoWindow from '@/components/InfoWindow.vue';
 
 export default defineComponent({
   setup () {
@@ -43,7 +45,8 @@ export default defineComponent({
     GridLayout,
     GridItem,
     Files,
-    Github
+    Github,
+    InfoWindow
   },
   data() {
       return {
@@ -56,6 +59,7 @@ export default defineComponent({
         bounded: false,
         showDocs: false,
         showGithub: false,
+        showMyInfo: false,
       }
     },
     computed: {
@@ -142,5 +146,8 @@ export default defineComponent({
         } 
       }
     },
+    mounted(){
+      this.showMyInfo = true
+    }
 })
 </script>
